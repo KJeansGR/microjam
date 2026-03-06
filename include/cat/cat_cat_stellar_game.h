@@ -3,7 +3,7 @@
 
 #include "mj/mj_game.h"
 #include "bn_string.h"
-#include "player.h"
+
 
 namespace cat
 {
@@ -66,10 +66,8 @@ namespace cat
          */
         void fade_out(const mj::game_data& data) override;
 
-    private:
-        // The character that the player can move
-        player _player;
+    
 };
 
 }
-#endif // CAT_CAT_STELLER_GAME_H
+#endif 
