@@ -22,8 +22,6 @@ namespace bal
 
         void fade_out(const mj::game_data& data) override;
 
-    private:
-        player _player;
 };
 
 }
