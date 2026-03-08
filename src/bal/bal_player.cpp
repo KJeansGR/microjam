@@ -12,18 +12,17 @@ namespace bal {
     {}
 
     void player::update() {
-    if(bn::keypad::left_held() && !(_sprite.x() > MIN_X)) {
+    if(bn::keypad::left_held() && !(_sprite.x() < MIN_X)) {
         _sprite.set_x(_sprite.x() - _speed);
     }
     if(bn::keypad::right_held() && !(_sprite.x() > MAX_X)) {
         _sprite.set_x(_sprite.x() + _speed);
     }
-    if(bn::keypad::up_held() && !(_sprite.y() > MIN_Y)) {
+    if(bn::keypad::up_held() && !(_sprite.y() < MIN_Y)) {
         _sprite.set_y(_sprite.y() - _speed);
     }
     if(bn::keypad::down_held() && !(_sprite.y() > MAX_Y)) {
         _sprite.set_y(_sprite.y() + _speed);
     }
-    
 }
 }
