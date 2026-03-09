@@ -4,6 +4,7 @@
 #include "bn_display.h"
 #include "bn_sprite_ptr.h"
 #include "bn_sprite_animate_actions.h"
+#include <bn_vector.h>
 
 #include "mj/mj_game_list.h"
 
@@ -40,8 +41,12 @@ axo_aquatic_galaxy_defense::axo_aquatic_galaxy_defense([[maybe_unused]] int comp
     [[maybe_unused]] const mj::game_data& data) :
         mj::game("axo"),
         _player(player({20, 0}, 2, PLAYER_SIZE)),
-        _obstacle(obstacle(-100, -50, 1, OBSTACLE_SIZE))
-        {}
+        _obstacles()
+        {
+            _obstacles.push_back(obstacle(-100, 0, 1, OBSTACLE_SIZE));
+            _obstacles.push_back(obstacle(-100, -50, 1, OBSTACLE_SIZE));
+            _obstacles.push_back(obstacle(-100, 50, 1, OBSTACLE_SIZE));
+        }
 
 /**
  * The instructions given to the player at the beginning of the microgame.
@@ -76,9 +81,11 @@ mj::game_result axo_aquatic_galaxy_defense::play([[maybe_unused]] const mj::game
     // update the player position
     _player.update();
     // spawn single obstacle and update it
-    _obstacle.update(_player);
-    if(_player.bounding_box().intersects(_obstacle.bounding_box())){
-        _player.kill();
+    for(auto& obstacle : _obstacles) {
+        obstacle.update(_player);
+        if(_player.bounding_box().intersects(obstacle.bounding_box())) {
+            _player.kill();
+        }
     }
 
     if(!_player.alive()) {

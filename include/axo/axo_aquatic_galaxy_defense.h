@@ -68,7 +68,7 @@ class axo_aquatic_galaxy_defense : public mj::game
         // The character that the player can move
         player _player;
         // The obstacles in the game
-        obstacle _obstacle;
+        bn::vector<obstacle, 3> _obstacles = {};
 };
 
 }
