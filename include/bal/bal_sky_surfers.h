@@ -30,7 +30,8 @@ namespace bal
     private:
         player _bal_player;
         bn::vector<rock, 20> _rocks;
-        
+        int _spawn_rocks;
+        bn::random _rng;
 
 };
 

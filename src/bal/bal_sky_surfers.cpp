@@ -7,6 +7,11 @@ namespace
     constexpr bn::string_view graphics_credits[] = { "" };
     constexpr bn::string_view sfx_credits[] = {""};
     constexpr bn::string_view music_credits[] = {""};
+
+    constexpr bn::size ROCK_SIZE = {8, 8};
+    constexpr int MIN_X = -bn::display::width() / 2;
+    constexpr int MAX_X = bn::display::width() / 2;
+    constexpr int MIN_Y = -bn::display::height() / 2;
 }
 
 MJ_GAME_LIST_ADD(bal::bal_sky_surfers)
@@ -34,6 +39,13 @@ int bal_sky_surfers::total_frames() const {
 mj::game_result bal_sky_surfers::play([[maybe_unused]] const mj::game_data& data)
 {
     _bal_player.update();
+
+    _spawn_rocks++;
+    if(_spawn_rocks >= 60 && _rocks.size() < _rocks.max_size()){
+        int rand_x = _rng.get_int(MIN_X, MAX_X);
+        _rocks.push_back(rock(rand_x, MIN_Y, 2, ROCK_SIZE));
+        _spawn_rocks = 0;
+    }
 
     mj::game_result result(victory(), false);
     return result;
