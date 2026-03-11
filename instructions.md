@@ -190,11 +190,6 @@ Begin implementing your game! By the end of this wave you do NOT need to have a 
 - You can make more branches if it's helpful for coordination with your teams.
 
 Once you have a prototype ready for review, make a PR from your branch. Make a NEW BRANCH off of that branch so you can continue working on later waves as you wait for feedback.
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> d434f0f87ee28694fa942ad7f6f66e96875d817c
 
 ## Wave 6: Functioning game
 
@@ -241,7 +236,3 @@ Make/run, then add/commit/test. You should be tuning your game so that it's fun 
 ### Submitting
 
 Once you have added your difficulty levels, add/commit/push. Make a new PR! If you want to continue work past this, please make a new branch to continue your work.
-<<<<<<< HEAD
-=======
->>>>>>> main
->>>>>>> d434f0f87ee28694fa942ad7f6f66e96875d817c
