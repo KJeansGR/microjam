@@ -29,9 +29,9 @@ namespace aaa
         for (int i = 0; i < _enemies.max_size(); i++)
         {
             bn::fixed_point pos(data.random.get_int(-300, 300), data.random.get_int(-150, 150)); // added extra so some _enemies spawn off-screen
-            bn::fixed speed = data.random.get_fixed(.2, .4);                                     // nice slow moving _enemies
+            //bn::fixed speed = data.random.get_fixed(.2, .4);                                     // nice slow moving _enemies
 
-            _enemies.push_back(aaa_enemy({pos}, speed));
+            _enemies.push_back(aaa_enemy({pos}, _recommended_enemy_speed(recommended_difficulty_level(completed_games, data))));
         }
     }
 
@@ -104,4 +104,13 @@ namespace aaa
     void aaa_planetoids::fade_out([[maybe_unused]] const mj::game_data &data)
     {
     }
+
+    bn::fixed aaa_planetoids::_recommended_enemy_speed(mj::difficulty_level difficulty) {
+        if(difficulty == mj::difficulty_level::EASY) {
+            return .2;
+        } else if (difficulty == mj::difficulty_level::NORMAL) {
+            return .4;
+        } 
+        return .8;
+}
 }

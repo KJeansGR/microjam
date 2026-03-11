@@ -64,6 +64,7 @@ namespace aaa
         aaa_Player _player;
         bn::vector<aaa_enemy, 10> _enemies;
         bn::vector<aaa_Bullet, 25> _bullets;
+        bn::fixed _recommended_enemy_speed(mj::difficulty_level difficulty);
     };
 }
 
