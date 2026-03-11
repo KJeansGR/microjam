@@ -9,16 +9,16 @@ namespace bal{
         bounding_box(bn::rect(starting_x, starting_y, rock_size.width(), rock_size.height()))
         {}
 
-    bool rock::update(){
-        sprite.set_y(sprite.y() + speed);
-        bounding_box = bn::rect(
-        sprite.x().round_integer(),
-        sprite.y().round_integer(),
-        size.width(),
-        size.height()
-    );
+        bool rock::update(){
+            sprite.set_y(sprite.y() + speed);
+            bounding_box = bn::rect(
+            sprite.x().round_integer(),
+            sprite.y().round_integer(),
+            size.width(),
+            size.height()
+        );
 
-    //checks if rock has reached the bottom
-    return sprite.y() > MAX_Y;
+        //checks if rock has reached the bottom
+        return sprite.y() > MAX_Y;
     }
 }
