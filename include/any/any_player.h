@@ -34,7 +34,7 @@ public:
                 if (_sprite.y() >= p.y - 5 && _sprite.y() <= p.y + 2 &&
                     _sprite.x() >= p.x - 20 && _sprite.x() <= p.x + 20) {
                     
-                    _dy = -4;
+                    _dy = -4.8;
                     _sprite.set_y(p.y - 5);
                 }
             }
