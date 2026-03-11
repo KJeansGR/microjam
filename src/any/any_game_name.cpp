@@ -13,7 +13,7 @@
 
 namespace {
     constexpr bn::string_view code_credits[] = { "Anthony Margullis, Yousif Sultan" };
-    constexpr bn::string_view graphics_credits[] = { "Kenney Game Assets" };
+    constexpr bn::string_view graphics_credits[] = { "Anthony Margullis, Yousif Sultan" };
     constexpr bn::string_view sfx_credits[] = {""};
     constexpr bn::string_view music_credits[] = {""};
 }
@@ -82,7 +82,7 @@ any_game_name::any_game_name(int completed_games, const mj::game_data& data) :
 
 
 bn::string<16> any_game_name::title() const {
-    return "Astronaut";
+    return "Astronaut (Grab the Moon)";
 }
 
 int any_game_name::total_frames() const {
