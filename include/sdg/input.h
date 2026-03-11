@@ -27,8 +27,8 @@ namespace sdg {
             int _input = -1;
             // Current index of code.
             int progress = 0;
-            // Correct code of fixed values.
-            bn::array<int, 5> challenge;
+            // Correct code of fixed values. (max 9 inputs)
+            bn::array<int,9> challenge;
     };
 }
 

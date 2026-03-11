@@ -6,8 +6,7 @@
 namespace sdg {
 
 input::input() {
-    challenge = { 0, 1, 2, 3, 0 }, // will be made random later
-    progress = 0;
+    challenge = { 0, 1, 2, 3, 0 }; // will be made random later
 };
 
 // Reads the input from the D-Pad each frame

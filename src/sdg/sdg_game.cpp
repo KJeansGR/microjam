@@ -70,4 +70,13 @@ namespace sdg{
     {
     }
 
+    int sdg_game::_code_difficulty(mj::difficulty_level diff) {
+        if (diff == mj::difficulty_level::EASY) {
+            return 5;
+        } else if (diff == mj::difficulty_level::NORMAL) {
+            return 7;
+        } else {
+            return 10;
+        }
+    }
 }

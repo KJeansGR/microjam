@@ -30,6 +30,10 @@ namespace sdg{
     private:
         // An instance of the players capability to input
         input player;
+
+        // Returns an array size that gradually increases, making codes longer
+        // and therefore more difficult.
+        int _code_difficulty(mj::difficulty_level difficulty);
 }; 
 }
 
