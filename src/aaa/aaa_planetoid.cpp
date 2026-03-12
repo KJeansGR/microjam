@@ -2,6 +2,7 @@
 
 #include "aaa_planetoid.h"
 #include "mj/mj_game_list.h"
+#include "mj/mj_game_data.h"
 #include "bn_display.h"
 #include <bn_core.h>
 namespace
