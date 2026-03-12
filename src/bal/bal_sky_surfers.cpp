@@ -5,8 +5,8 @@
 
 namespace
 {
-    constexpr bn::string_view code_credits[] = { "Pasha, Hosea" };
-    constexpr bn::string_view graphics_credits[] = { "" };
+    constexpr bn::string_view code_credits[] = { "Pasha", "Hosea" };
+    constexpr bn::string_view graphics_credits[] = { "Hosea" };
     constexpr bn::string_view sfx_credits[] = {""};
     constexpr bn::string_view music_credits[] = {""};
 
@@ -28,16 +28,15 @@ bal_sky_surfers::bal_sky_surfers([[maybe_unused]] int completed_games, [[maybe_u
     mj::game("bal"),
     _bal_player(player({0, 60}, 2)),
     _spawn_rocks(0),
-    //WHERE THE FUNCTION IS CALLED DIFICULTY
     _difficulty_level(_recommended_player_speed(recommended_difficulty_level(completed_games, data))),
-    _player_intersects(false)
+    _player_intersects(false),
+    _rng(data.random)
     {}
 
 
 bn::string<16> bal_sky_surfers::title() const {
     return "Dodge the rocks";
 }
-// dififculty level function from aub's work changed
 bn::fixed bal_sky_surfers::_recommended_player_speed(mj::difficulty_level difficulty) {
     if(difficulty == mj::difficulty_level::EASY) {
         return 3;
@@ -69,17 +68,7 @@ mj::game_result bal_sky_surfers::play([[maybe_unused]] const mj::game_data& data
 
     _bal_player.update();
 
-    // spawn_rock();
-    // spawn_rock();
-    // spawn_rock();
-    // spawn_rock();
-    // spawn_rock();
-    // spawn_rock();
-    // spawn_rock();
-    // spawn_rock();
-    // spawn_rock();
-    //DIFICULTY LEVELS IMPLEMENTED
-    for(int i = _difficulty_level; i>0; i--){
+    for(int i=_difficulty_level; i>0; i--){
         spawn_rock();
     }
 
