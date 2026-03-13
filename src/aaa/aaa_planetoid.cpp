@@ -5,6 +5,7 @@
 #include "mj/mj_game_data.h"
 #include "bn_display.h"
 #include <bn_core.h>
+
 namespace
 {
     constexpr bn::string_view code_credits[] = {"KJ, Adam Kurfurst"};
@@ -29,10 +30,24 @@ namespace aaa
         _asteroids = _recommended_enemy_kill(recommended_difficulty_level(completed_games, data));
         _hits = 0;
 
-            for (int i = 0; i < _enemies.max_size(); i++)
+        for (int i = 0; i < _enemies.max_size(); i++)
         {
-            bn::fixed_point pos(data.random.get_int(-250, 250), data.random.get_int(-100, 100)); // added extra so some _enemies spawn off-screen
-            //bn::fixed speed = data.random.get_fixed(.2, .4);                                     // nice slow moving _enemies
+            bn::fixed x = data.random.get_int(-200, 200);
+            bn::fixed y = data.random.get_int(-100, 100);
+
+            // these if statements add the desired buffer to the value after its generated to garunteed that no
+            // asteroids spawn within that range
+            if (x < 0)
+                x -= 40;
+            else
+                x += 40;
+
+            if (y < 0)
+                y -= 40;
+            else
+                y += 40;
+
+            bn::fixed_point pos(x, y);
 
             _enemies.push_back(aaa_enemy({pos}, .6));
         }
@@ -40,6 +55,7 @@ namespace aaa
 
     bn::string<16> aaa_planetoids::title() const
     {
+
         return "Shoot Asteroids!";
     }
 
@@ -54,26 +70,25 @@ namespace aaa
 
         if (bn::keypad::a_pressed())
         {
-            if (_bullets.size() != _bullets.max_size()) // this makes it so that only the max amount of _bullets can be on screen at a time, i tried to resize rthe _bullets vector but could not so i did this bandaid fix
+            if (_bullets.size() != _bullets.max_size())
             {
                 _bullets.push_back(aaa_Bullet(bn::fixed_point(0, 0), 5, _player.getAngle()));
             }
         }
 
-        for (int i = 0; i < _enemies.size(); i++)
+        for (int i = _enemies.size() - 1; i >= 0; i--)
         {
             _enemies[i].update();
-            if(_enemies[i].getRect().intersects(_player.getRect())){
+            if (_enemies[i].getRect().intersects(_player.getRect()))
+            {
                 _hits++;
-                _asteroids = _asteroids - 1; //Even if the asteroid hits the player, it still counts as towards the win conditon
+                _asteroids = _asteroids - 1; // Even if the asteroid hits the player, it still counts as towards the win conditon
                 _enemies.erase(_enemies.begin() + i);
-                return mj::game_result(_hits == 3, false); //the game will end if the player is hit 3 times.
+                return mj::game_result(_hits == 3, false); // the game will end if the player is hit 3 times.
             }
         }
 
-        // I am aware that this is a nested for loop, but trying to make this operate inside the classes would have required passing in the information for the enemy vector
-        // I am not at this time able to dedicate that much mental power to solve this, so i instead have a nested loop to check each bullet to each enemy
-        for (int i = _bullets.size() - 1; i >= 0; i--)
+        for (int i = 0; i < _bullets.size(); i++)
         {
             _bullets[i].update();
 
@@ -84,8 +99,15 @@ namespace aaa
             {
                 if (_bullets[i].getRect().intersects(_enemies[j].getRect()))
                 {
-                    _enemies.erase(_enemies.begin() + j);
-                    _asteroids = _asteroids - 1;
+                    if (!_enemies[j].is_destroyed()) // this makes sure that the enemies destroyed boolean isnt already toggle to prevent duplicate calls
+                    {
+                        _enemies[j].destroyedAnimation(); // toggles boolean to create/start animation
+                        _asteroids = _asteroids - 1;      // placing this asteroid decrementer here worked best for triggering correct win condition
+                    }
+                    if (_enemies[j].animation_done()) // only deletes if animation is finished
+                    {
+                        _enemies.erase(_enemies.begin() + j);
+                    }
                 }
             }
             if (bX > bn::display::width() / 2 || bY > bn::display::height() / 2 || bX < -bn::display::width() / 2 || bY < -bn::display::height() / 2)
@@ -94,18 +116,12 @@ namespace aaa
             }
         }
 
-        return mj::game_result(_asteroids == 0, false);
+        return mj::game_result(_asteroids <= 0, false);
     }
 
     bool aaa_planetoids::victory() const
     {
-        // kind of jank but it works if we are hardcoding the inital amount of _enemies
-        // if (_enemies.max_size() - _enemies.size() > 1)
-        // {
-        //     return true;
-        // }
-        // return false;
-        return _asteroids == 0;
+        return _asteroids <= 0;
     }
 
     void aaa_planetoids::fade_in([[maybe_unused]] const mj::game_data &data)
@@ -116,12 +132,16 @@ namespace aaa
     {
     }
 
-    bn::fixed aaa_planetoids::_recommended_enemy_kill(mj::difficulty_level difficulty) {
-        if(difficulty == mj::difficulty_level::EASY) {
+    bn::fixed aaa_planetoids::_recommended_enemy_kill(mj::difficulty_level difficulty)
+    {
+        if (difficulty == mj::difficulty_level::EASY)
+        {
             return 3;
-        } else if (difficulty == mj::difficulty_level::NORMAL) {
+        }
+        else if (difficulty == mj::difficulty_level::NORMAL)
+        {
             return 5;
-        } 
+        }
         return 10;
-}
+    }
 }
