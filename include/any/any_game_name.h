@@ -6,9 +6,11 @@
 #include "bn_fixed.h"
 #include "mj/mj_game.h"
 #include "any_player.h"
+#include "any_platform.h"
 #include "bn_sprite_items_astronaut.h"
 #include "bn_sprite_text_generator.h"
 #include "bn_regular_bg_ptr.h"
+
 
 namespace any {
 
@@ -75,9 +77,6 @@ namespace any {
      bn::optional<player> _player;
      bool _has_lost = false;
 
-     bn::optional<bn::sprite_ptr> _platform_sprite_1;
-     bn::optional<bn::sprite_ptr> _platform_sprite_2;
-     bn::optional<bn::sprite_ptr> _platform_sprite_3;
      platform _platforms[3];
 
      bn::optional<bn::sprite_ptr> _moon_sprite;
