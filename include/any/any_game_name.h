@@ -6,9 +6,11 @@
 #include "bn_fixed.h"
 #include "mj/mj_game.h"
 #include "any_player.h"
+#include "any_platform.h"
 #include "bn_sprite_items_astronaut.h"
 #include "bn_sprite_text_generator.h"
 #include "bn_regular_bg_ptr.h"
+
 
 namespace any {
 
@@ -71,13 +73,11 @@ namespace any {
 
     private:
      //the character that the player can move
-     bn::optional<bn::sprite_ptr> _astronaut_sprite;
      bn::optional<player> _player;
      bool _has_lost = false;
+     bool _player_touching_moon() const;
+     bool _touched_moon() const;
 
-     bn::optional<bn::sprite_ptr> _platform_sprite_1;
-     bn::optional<bn::sprite_ptr> _platform_sprite_2;
-     bn::optional<bn::sprite_ptr> _platform_sprite_3;
      platform _platforms[3];
 
      bn::optional<bn::sprite_ptr> _moon_sprite;
