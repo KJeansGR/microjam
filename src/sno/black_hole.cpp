@@ -18,7 +18,7 @@ namespace sno
           _sprite_action(bn::create_sprite_animate_action_forever(
               // if you need to change the black hole rotation speed
               // change _sprite, 1, to change the speed of the rotation 1,2,4 or 8
-              _sprite, 2,
+              _sprite, 4,
               bn::sprite_items::black_hole.tiles_item(),
               0, 1, 2))
     {
