@@ -55,8 +55,10 @@ namespace aaa
 
     bn::string<16> aaa_planetoids::title() const
     {
-
-        return "Shoot Asteroids!";
+        bn::string<16> title = "Destroy ";
+        title.append(bn::to_string<2>(_asteroids));
+        title.append(" rocks");
+        return title;
     }
 
     int aaa_planetoids::total_frames() const
@@ -88,35 +90,9 @@ namespace aaa
             }
         }
 
-        for (int i = 0; i < _bullets.size(); i++)
-        {
-            _bullets[i].update();
+        _checkHit(_enemies, _bullets, _asteroids);
 
-            bn::fixed bX = _bullets[i].BulletPos().x();
-            bn::fixed bY = _bullets[i].BulletPos().y();
-
-            for (int j = 0; j < _enemies.size(); j++)
-            {
-                if (_bullets[i].getRect().intersects(_enemies[j].getRect()))
-                {
-                    if (!_enemies[j].is_destroyed()) // this makes sure that the enemies destroyed boolean isnt already toggle to prevent duplicate calls
-                    {
-                        _enemies[j].destroyedAnimation(); // toggles boolean to create/start animation
-                        _asteroids = _asteroids - 1;      // placing this asteroid decrementer here worked best for triggering correct win condition
-                    }
-                    if (_enemies[j].animation_done()) // only deletes if animation is finished
-                    {
-                        _enemies.erase(_enemies.begin() + j);
-                    }
-                }
-            }
-            if (bX > bn::display::width() / 2 || bY > bn::display::height() / 2 || bX < -bn::display::width() / 2 || bY < -bn::display::height() / 2)
-            {
-                _bullets.erase(_bullets.begin() + i);
-            }
-        }
-
-        return mj::game_result(_asteroids <= 0, false);
+        return mj::game_result(victory(), false);
     }
 
     bool aaa_planetoids::victory() const
@@ -143,5 +119,31 @@ namespace aaa
             return 5;
         }
         return 10;
+    }
+
+    void aaa_planetoids::_checkHit(bn::vector<aaa_enemy, 10> &enemies, bn::vector<aaa_Bullet, 25> &bullets, bn::fixed &asteroids){
+        // I am aware that this is a nested for loop, but trying to make this operate inside the classes would have required passing in the information for the enemy vector
+        // I am not at this time able to dedicate that much mental power to solve this, so i instead have a nested loop to check each bullet to each enemy
+        for (int i = bullets.size() - 1; i >= 0; i--){
+            bullets[i].update();
+
+            
+
+            for (int j = 0; j < enemies.size(); j++){
+                if (bullets[i].getRect().intersects(enemies[j].getRect())){
+                    enemies.erase(enemies.begin() + j);
+                    asteroids = asteroids - 1;
+                }
+            }
+            if (_outOfBounds(bullets[i])){
+                bullets.erase(bullets.begin() + i);
+            }
+        }
+    }
+
+    bool aaa_planetoids::_outOfBounds(aaa_Bullet bullet){
+        bn::fixed bX = bullet.BulletPos().x();
+        bn::fixed bY = bullet.BulletPos().y();
+        return bX > bn::display::width() / 2 || bY > bn::display::height() / 2 || bX < -bn::display::width() / 2 || bY < -bn::display::height() / 2;
     }
 }
